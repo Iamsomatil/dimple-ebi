@@ -35,21 +35,23 @@ NPM<!DOCTYPE html>
         .image-container {
             position: relative;
             width: 90vw;
-            max-width: 800px;
-            height: 60vh;
-            margin: 20px 0 40px;
+            max-width: 600px;
+            height: 70vh;
+            max-height: 600px;
+            margin: 20px 0 30px;
             perspective: 1000px;
             animation: fadeIn 1.5s ease-out forwards;
+            overflow: hidden;
+            border-radius: 20px;
+            border: 12px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 30px 60px rgba(255, 105, 180, 0.4);
         }
 
         .profile-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 20px;
-            border: 12px solid rgba(255, 255, 255, 0.85);
-            box-shadow: 0 30px 60px rgba(255, 105, 180, 0.4);
-            transform-style: preserve-3d;
+            object-position: center 30%;
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             animation: float 8s ease-in-out infinite, 
                        borderGlow 4s ease-in-out infinite alternate;
@@ -185,7 +187,7 @@ NPM<!DOCTYPE html>
                 font-size: 16px;
             }
         }
-
+        
         @media (max-width: 480px) {
             .profile-image {
                 width: 180px;
@@ -199,6 +201,17 @@ NPM<!DOCTYPE html>
             .love-button {
                 font-size: 20px;
                 padding: 14px 28px;
+            }
+            
+            .image-container {
+                height: 50vh;
+                max-height: 400px;
+                margin: 10px 0 20px;
+                border-width: 8px;
+            }
+            
+            .profile-image {
+                object-position: center 20%;
             }
         }
     </style>
