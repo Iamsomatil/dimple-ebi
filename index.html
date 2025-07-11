@@ -16,7 +16,7 @@ NPM<!DOCTYPE html>
             font-family: 'Dancing Script', cursive;
             background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 25%, #ffd6eb 50%, #ffcce6 75%, #ffc2e1 100%);
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -26,44 +26,70 @@ NPM<!DOCTYPE html>
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
             position: relative;
             z-index: 10;
+            text-align: center;
+        }
+
+        .image-container {
+            position: relative;
+            width: 90vw;
+            max-width: 800px;
+            height: 60vh;
+            margin: 20px 0 40px;
+            perspective: 1000px;
+            animation: fadeIn 1.5s ease-out forwards;
         }
 
         .profile-image {
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border: 10px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 25px 50px rgba(255, 105, 180, 0.6);
-            margin: 30px 0;
-            animation: jumpIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, 
-                       gentle-pulse 3s ease-in-out 1.2s infinite;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 20px;
+            border: 12px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 30px 60px rgba(255, 105, 180, 0.4);
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            animation: float 8s ease-in-out infinite, 
+                       borderGlow 4s ease-in-out infinite alternate;
         }
 
-        @keyframes jumpIn {
-            0% {
-                transform: scale(0.5) translateY(100px);
-                opacity: 0;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) rotateX(2deg) rotateY(2deg); 
+                box-shadow: 0 30px 60px rgba(255, 105, 180, 0.4);
             }
-            70% {
-                transform: scale(1.1) translateY(-20px);
-                opacity: 1;
+            50% { 
+                transform: translateY(-20px) rotateX(-2deg) rotateY(-2deg); 
+                box-shadow: 0 50px 80px rgba(255, 105, 180, 0.6);
             }
-            100% {
-                transform: scale(1) translateY(0);
-                opacity: 1;
+        }
+
+        @keyframes borderGlow {
+            from { 
+                border-color: rgba(255, 255, 255, 0.85);
+                box-shadow: 0 30px 60px rgba(255, 105, 180, 0.4);
+            }
+            to { 
+                border-color: rgba(255, 255, 255, 0.95);
+                box-shadow: 0 30px 80px rgba(255, 20, 147, 0.6);
             }
         }
 
         .profile-image:hover {
-            transform: scale(1.08);
-            box-shadow: 0 30px 60px rgba(255, 105, 180, 0.8);
+            transform: scale(1.02) rotateX(0) rotateY(0);
+            box-shadow: 0 40px 100px rgba(255, 20, 147, 0.7);
+        }
+
+        /* Add a subtle parallax effect on mouse move */
+        .image-container:hover .profile-image {
+            transform: translateY(-20px) rotateX(var(--mouse-x, 0)) rotateY(var(--mouse-y, 0));
         }
 
         @keyframes gentle-pulse {
@@ -180,11 +206,31 @@ NPM<!DOCTYPE html>
 <body>
     <div class="container">
         <h1 class="title">You Are My Everything 💕</h1>
-        <img src="IMG-20250429-WA0009.jpg" alt="My Beautiful Love" class="profile-image">
+        <div class="image-container" id="imageContainer">
+            <img src="IMG-20250429-WA0009.jpg" alt="My Beautiful Love" class="profile-image">
+        </div>
         <a href="page2.html" class="love-button">Click Me ❤️</a>
     </div>
 
     <script>
+        // Add parallax effect to the image
+        const imageContainer = document.getElementById('imageContainer');
+        
+        imageContainer.addEventListener('mousemove', (e) => {
+            const rect = imageContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const angleX = (y - centerY) / 50;
+            const angleY = (centerX - x) / 50;
+            
+            imageContainer.style.setProperty('--mouse-x', `${angleX}deg`);
+            imageContainer.style.setProperty('--mouse-y', `${angleY}deg`);
+        });
+        
         // Create floating love bubbles
         const loveEmojis = ['❤️', '💕', '💖', '💗', '💘', '💝', '💞', '💟', '🌹', '💐'];
         
