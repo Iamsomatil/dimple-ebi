@@ -1,8 +1,8 @@
 {
-    "routes": [
-      { "handle": "filesystem" },
-      { "src": "/page2", "dest": "/page2.html", "status": 301 },
-      { "src": "/page2.html", "dest": "/page2.html" },
-      { "src": "/(.*)", "dest": "/index.html" }
-    ]
-  }
+  "rewrites": [
+    { "source": "/page2", "destination": "/page2.html" },
+    { "source": "/", "destination": "/index.html" }
+  ],
+  "trailingSlash": false,
+  "cleanUrls": true
+}
